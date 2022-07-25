@@ -1,0 +1,1 @@
+for i in */; do echo "Entering $i"; cd $i; for j in *.csv; do echo "Processing $j"; head -n 1 $j > ../../../labeled_normal_p445/samplePCAPs/$i/$j; awk -F, '{if ($3=="445" || $5=="445") print}' $j >> ../../../labeled_normal_p445/samplePCAPs/$i/$j; done; cd ../ ; done
