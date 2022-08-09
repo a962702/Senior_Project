@@ -1,0 +1,53 @@
+From 02b5463bc1fd71af868e48cee689fa7993aa204c Mon Sep 17 00:00:00 2001
+From: Andy Yang <23339548+a962702@users.noreply.github.com>
+Date: Tue, 9 Aug 2022 00:05:58 +0800
+Subject: [PATCH] Fix Infinity and NaN in csv
+
+---
+ .../cic/cs/unb/ca/jnetpcap/FlowGenerator.java    | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
+
+diff --git a/src/main/java/cic/cs/unb/ca/jnetpcap/FlowGenerator.java b/src/main/java/cic/cs/unb/ca/jnetpcap/FlowGenerator.java
+index e96f3fe..598e3ba 100644
+--- a/src/main/java/cic/cs/unb/ca/jnetpcap/FlowGenerator.java
++++ b/src/main/java/cic/cs/unb/ca/jnetpcap/FlowGenerator.java
+@@ -100,11 +100,13 @@ public class FlowGenerator {
+                     flow.setCumulativeTcpConnectionDuration(currDuration);
+                 }
+ 
+-                if (mListener != null) {
+-                    mListener.onFlowGenerated(flow);
+-                } else {
+-                    finishedFlows.put(getFlowCount(), flow);
+-                    //flow.endActiveIdleTime(currentTimestamp,this.flowActivityTimeOut, this.flowTimeOut, false);
++                if (flow.packetCount() > 1) {
++                    if (mListener != null) {
++                        mListener.onFlowGenerated(flow);
++                    } else {
++                        finishedFlows.put(getFlowCount(), flow);
++                        //flow.endActiveIdleTime(currentTimestamp,this.flowActivityTimeOut, this.flowTimeOut, false);
++                    }
+                 }
+                 currentFlows.remove(id);
+ 
+@@ -236,7 +238,7 @@ public class FlowGenerator {
+             output.write((header + "\n").getBytes());
+             for (String key : ckeys) {
+                 flow = currentFlows.get(key);
+-                if (flow.packetCount() >= 1) {
++                if (flow.packetCount() > 1) {
+                     output.write((flow.dumpFlowBasedFeaturesEx() + "\n").getBytes());
+                     total++;
+                 } else {
+@@ -275,7 +277,7 @@ public class FlowGenerator {
+             }
+ 
+             for (BasicFlow flow : currentFlows.values()) {
+-                if (flow.packetCount() >= 1) {
++                if (flow.packetCount() > 1) {
+ 
+                     if (flow.getProtocol() == ProtocolEnum.TCP) {
+                         flow = updateTcpCxnDuration(flow);
+-- 
+2.25.1
+
