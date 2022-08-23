@@ -2,7 +2,7 @@
 # Load tmp_data.npz as data and train specified model.     #
 # classification_report will save to 'report.csv'          #
 #                                                          #
-# Usage: train.py <model id>                               #
+# Usage: train.py <model id> <epochs> <batch_size>         #
 ############################################################
 
 import sys
@@ -13,8 +13,8 @@ import pandas as pd
 from model import ANN_model, CNN_model, DNN_model, MLP_model
 from TimingCallback import TimingCallback
 
-if len(sys.argv) < 2:
-    print('-> Usage: train.py <model id>')
+if len(sys.argv) != 4:
+    print('-> Usage: train.py <model id> <epochs> <batch_size>')
     sys.exit()
 
 # Load data generated from process_dataset.py
@@ -32,7 +32,9 @@ model = model_generator(input_size)
 
 # Train model
 cb = TimingCallback()
-history = model.fit(X_train, Y_train, epochs=1000, batch_size=512, validation_split=0.05, callbacks=[cb])
+epochs = int(sys.argv[2])
+batch_size = int(sys.argv[3])
+history = model.fit(X_train, Y_train, epochs=epochs, batch_size=batch_size, validation_split=0.05, callbacks=[cb])
 y_pred = model.predict(X_test)
 y_true = Y_test
 pred = np.argmax(y_pred, axis = 1)

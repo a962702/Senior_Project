@@ -1,10 +1,7 @@
 #!/bin/bash
-############################################################
-# Load tmp_data.npz as data and train specified model.     #
-# classification_report will save to 'report.csv'          #
-#                                                          #
-# Usage: main.py <model id>                                #
-############################################################
+
+# To disable GPU, uncommit this
+export CUDA_VISIBLE_DEVICES="-1"
 
 # Avaliable dataset
 declare -a datasets
@@ -21,20 +18,32 @@ datasets[9]='git-e3bb9ce_jnetpcap-1.4.r1500_patch'
 datasets[10]='git-98a5eba_jnetpcap-1.3.0'
 datasets[11]='git-98a5eba_jnetpcap-1.4.r1425'
 
+# Model
+# 0:ANN  1:CNN  2:DNN  3:MLP
+models=(0 1 2 3)
+
 # PCA rate
 pca_rates=('0.85' '0.9' '0.95' '1' 'origin')
+
+# rounds
+rounds=3
+
+# train.py
+epochs=1000
+batch_size=512
+
 
 for dataset in "${datasets[@]}"
 do
     for pca_rate in "${pca_rates[@]}"
     do
         python3 process_dataset.py $dataset $pca_rate
-        for model_id in $(seq 0 3)
+        for model_id in "${models[@]}"
         do
             mkdir -p "report/${dataset}/${pca_rate}/${model_id}"
-            for round in $(seq 0 2)
+            for round in $(seq 1 $rounds)
             do
-                python3 train.py $model_id
+                python3 train.py $model_id $epochs $batch_size
                 mv report.csv "report/${dataset}/${pca_rate}/${model_id}/${round}.csv"
             done
         done
