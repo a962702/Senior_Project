@@ -10,7 +10,7 @@ import numpy as np
 from sklearn.metrics import classification_report
 import pandas as pd
 
-from model import ANN_model, CNN_model, DNN_model, MLP_model
+from model import ANN_model, CNN_model, DNN_model, MLP_model, LSTM_model
 from TimingCallback import TimingCallback
 
 if len(sys.argv) != 4:
@@ -26,7 +26,7 @@ Y_test = tmp_data['Y_test']
 input_size = X_train.shape[1]
 
 # Load model
-models = [ANN_model, CNN_model,DNN_model, MLP_model]
+models = [ANN_model, CNN_model,DNN_model, MLP_model, LSTM_model]
 model_generator = models[int(sys.argv[1])]
 model = model_generator(input_size)
 

@@ -19,8 +19,8 @@ datasets[10]='git-98a5eba_jnetpcap-1.3.0'
 datasets[11]='git-98a5eba_jnetpcap-1.4.r1425'
 
 # Model
-# 0:ANN  1:CNN  2:DNN  3:MLP
-models=(0 1 2 3)
+# 0:ANN  1:CNN  2:DNN  3:MLP  4:LSTM
+models=(0 1 2 3 4)
 
 # PCA rate
 pca_rates=('0.85' '0.9' '0.95' '1' 'origin')

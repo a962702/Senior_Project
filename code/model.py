@@ -77,3 +77,4 @@ def LSTM_model(input_size):
     model.add(LSTM(39, name="lstm_1", dtype=tf.float32, activation="softmax"))
     model.compile(optimizer='adam', loss='sparse_categorical_crossentropy' , metrics=['sparse_categorical_accuracy'])
     model.summary()
+    return model
