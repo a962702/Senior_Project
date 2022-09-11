@@ -10,7 +10,7 @@ from keras.models import Sequential
 from keras.layers import Input, Dense, Conv1D, AveragePooling1D, MaxPooling1D, Flatten, Dropout, LSTM
 import tensorflow as tf
 
-def ANN_model(input_size):
+def ANN_model(input_size, label_count):
     print('--> ANN_model')
     model = Sequential()
     InputLayer = Input( batch_input_shape=(None, input_size ), name="dense_input", dtype=tf.float32, sparse=False, ragged=False)
@@ -19,12 +19,12 @@ def ANN_model(input_size):
     model.add(Dropout(0.1))
     model.add(Dense(128, name="dense_1", dtype=tf.float32, activation="relu"))
     model.add(Dropout(0.1))
-    model.add(Dense(39, name="dense_2", dtype=tf.float32, activation="softmax"))
+    model.add(Dense(label_count, name="dense_2", dtype=tf.float32, activation="softmax"))
     model.compile(optimizer='adam', loss='sparse_categorical_crossentropy' , metrics=['sparse_categorical_accuracy'])
     model.summary()
     return model
 
-def CNN_model(input_size):
+def CNN_model(input_size, label_count):
     print('--> CNN_model')
     model = Sequential()
     InputLayer = Input( batch_input_shape=(None, input_size, 1), name="conv1d_input", dtype=tf.float32, sparse=False, ragged=False)
@@ -35,12 +35,12 @@ def CNN_model(input_size):
     model.add(MaxPooling1D(name="max_pooling1d", pool_size=3, strides=3, dtype=tf.float32))
     model.add(Flatten(name="flatten", dtype=tf.float32))
     model.add(Dropout(0.1))
-    model.add(Dense(39, name="dense", dtype=tf.float32, activation="softmax"))
+    model.add(Dense(label_count, name="dense", dtype=tf.float32, activation="softmax"))
     model.compile(optimizer='adam', loss='sparse_categorical_crossentropy' , metrics=['sparse_categorical_accuracy'])
     model.summary()
     return model
 
-def DNN_model(input_size):
+def DNN_model(input_size, label_count):
     print('--> DNN_model')
     model = Sequential()
     InputLayer = Input( batch_input_shape=(None, input_size ), name="dense_input", dtype=tf.float32, sparse=False, ragged=False)
@@ -51,30 +51,30 @@ def DNN_model(input_size):
     model.add(Dropout(0.1))
     model.add(Dense(128, name="dense_2", dtype=tf.float32, activation="relu"))
     model.add(Dropout(0.1))
-    model.add(Dense(39, name="dense_3", dtype=tf.float32, activation="softmax"))
+    model.add(Dense(label_count, name="dense_3", dtype=tf.float32, activation="softmax"))
     model.compile(optimizer='adam', loss='sparse_categorical_crossentropy' , metrics=['sparse_categorical_accuracy'])
     model.summary()
     return model
 
-def MLP_model(input_size):
+def MLP_model(input_size, label_count):
     print('--> MLP_model')
     model = Sequential()
     InputLayer = Input( batch_input_shape=(None, input_size), name="dense_input", dtype=tf.float32, sparse=False, ragged=False)
     model.add(InputLayer)
     model.add(Dense(128, batch_input_shape=(None, input_size), name="dense", dtype=tf.float32, activation="relu"))
     model.add(Dropout(0.1))
-    model.add(Dense(39, name="dense_2", dtype=tf.float32, activation="softmax"))
+    model.add(Dense(label_count, name="dense_2", dtype=tf.float32, activation="softmax"))
     model.compile(optimizer='adam', loss='sparse_categorical_crossentropy' , metrics=['sparse_categorical_accuracy'])
     model.summary()
     return model
 
-def LSTM_model(input_size):
+def LSTM_model(input_size, label_count):
     model = Sequential()
     InputLayer = Input( batch_input_shape=(None, input_size, 1), name="lstm_input", dtype=tf.float32, sparse=False, ragged=False)
     model.add(InputLayer)
     model.add(LSTM(64, batch_input_shape=(None, input_size, 1), name="lstm", dtype=tf.float32, return_sequences=True))
     model.add(Dropout(0.1))
-    model.add(LSTM(39, name="lstm_1", dtype=tf.float32, activation="softmax"))
+    model.add(LSTM(label_count, name="lstm_1", dtype=tf.float32, activation="softmax"))
     model.compile(optimizer='adam', loss='sparse_categorical_crossentropy' , metrics=['sparse_categorical_accuracy'])
     model.summary()
     return model

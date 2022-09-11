@@ -24,11 +24,12 @@ X_test = tmp_data['X_test']
 Y_train = tmp_data['Y_train']
 Y_test = tmp_data['Y_test']
 input_size = X_train.shape[1]
+label_count = len(np.unique(Y_train))
 
 # Load model
 models = [ANN_model, CNN_model,DNN_model, MLP_model, LSTM_model]
 model_generator = models[int(sys.argv[1])]
-model = model_generator(input_size)
+model = model_generator(input_size, label_count)
 
 # Train model
 cb = TimingCallback()
