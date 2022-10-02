@@ -6,9 +6,9 @@
 #     mymodel = ANN_model(86)                              #
 ############################################################
 
-from keras.models import Sequential
-from keras.layers import Input, Dense, Conv1D, AveragePooling1D, MaxPooling1D, Flatten, Dropout, LSTM
 import tensorflow as tf
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Input, Dense, Conv1D, AveragePooling1D, MaxPooling1D, Flatten, Dropout, LSTM
 
 def ANN_model(input_size, label_count):
     print('--> ANN_model')
