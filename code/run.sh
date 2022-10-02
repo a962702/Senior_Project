@@ -43,7 +43,7 @@ do
             mkdir -p "report/${dataset}/${pca_rate}/${model_id}"
             for round in $(seq 1 $rounds)
             do
-                python3 train.py $model_id $epochs $batch_size
+                python3 main.py $model_id $epochs $batch_size
                 mv report.csv "report/${dataset}/${pca_rate}/${model_id}/${round}.csv"
             done
         done
